@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Courses - LingoFlow{% endblock %}
+
+{% block content %}
+
+    <section class="courses-container">
+        <h2>Explore English Courses</h2>
+        <p>Choose your level and start learning today!</p>
+
+        <div class="courses-list">
+            {% for course in courses %}
+                <div class="course-card">
+                    <h3>{{ course.title }}</h3>
+                    <p>{{ course.description }}</p>
+                    {#                <a href="#" class="cta-button">Start Learning</a>#}
+                    <p><strong>Level:</strong> {{ course.get_difficulty_display }}</p>
+                    <a href="{% url 'courses:selected_course' course.id %}" class="cta-button">View Course</a>
+                </div>
+            {% empty %}
+                <p>No courses available.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}

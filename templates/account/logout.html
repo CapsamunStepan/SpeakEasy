@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Logout - LingoFlow{% endblock %}
+
+{% block content %}
+    <section class="logout-container">
+        <h2>Are you sure you want to log out?</h2>
+        <p>If you log out, you will need to sign in again to continue learning.</p>
+
+        <form method="post" action="{% url 'account:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="cta-button">Yes, log me out</button>
+            <a href="{% url 'account:home' %}" class="cta-button cancel">No, take me back</a>
+        </form>
+    </section>
+{% endblock %}

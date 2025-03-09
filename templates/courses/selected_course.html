@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="course-detail">
+    <h2>{{ course.title }}</h2>
+    <p>{{ course.description }}</p>
+    <p><strong>Difficulty:</strong> {{ course.get_difficulty_display }}</p>
+
+    <h3>Topics</h3>
+    <ul class="topic-list">
+        {% for topic in course.topics.all %}
+        <li>
+            <h4>{{ topic.title }}</h4>
+            <p>{{ topic.explanation }}</p>
+        </li>
+        {% empty %}
+        <p>No topics available.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

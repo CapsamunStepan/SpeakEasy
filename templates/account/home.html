@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Learn Languages{% endblock %}
+
+{% block content %}
+    <main>
+        <section class="hero">
+            {% if request.user.is_authenticated %}
+                <h1>Welcome to LingoFlow, {{ request.user }}</h1>
+            {% else %}
+                <h1>Welcome to LingoFlow</h1>
+            {% endif %}
+            <p>Master a new language with engaging lessons, interactive exercises, and real-world practice.</p>
+            <a href="{% url 'courses:all_courses' %}" class="cta-button">Start Learning</a>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <h2>Interactive Lessons</h2>
+                <p>Learn with fun and engaging exercises tailored to your level.</p>
+            </div>
+            <div class="feature">
+                <h2>Real Conversations</h2>
+                <p>Practice speaking with AI tutors and language partners.</p>
+            </div>
+            <div class="feature">
+                <h2>Track Your Progress</h2>
+                <p>Monitor your improvement and stay motivated with daily goals.</p>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial">
+                <p>“LingoFlow made learning English so easy and fun! Highly recommend.”</p>
+                <span>- Alex, Student</span>
+            </div>
+            <div class="testimonial">
+                <p>“Great platform with structured lessons and a friendly interface.”</p>
+                <span>- Maria, Language Enthusiast</span>
+            </div>
+        </section>
+    </main>
+{% endblock %}
