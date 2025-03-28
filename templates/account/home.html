@@ -7,7 +7,7 @@
     <main>
         <section class="hero">
             {% if request.user.is_authenticated %}
-                <h1>Welcome to LingoFlow, {{ request.user }}</h1>
+                <h1>Welcome to LingoFlow, {{ request.user.first_name }}</h1>
             {% else %}
                 <h1>Welcome to LingoFlow</h1>
             {% endif %}
