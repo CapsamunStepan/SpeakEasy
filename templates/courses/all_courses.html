@@ -13,7 +13,6 @@
                 <div class="course-card">
                     <h3>{{ course.title }}</h3>
                     <p>{{ course.description }}</p>
-                    {#                <a href="#" class="cta-button">Start Learning</a>#}
                     <p><strong>Level:</strong> {{ course.get_difficulty_display }}</p>
                     <a href="{% url 'courses:selected_course' course.id %}" class="cta-button">View Course</a>
                 </div>

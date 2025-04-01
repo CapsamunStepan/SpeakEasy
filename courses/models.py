@@ -43,6 +43,7 @@ class Task(models.Model):
         ("4", "Audition")
     ]
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="tasks")
+    title = models.CharField(max_length=255, default=None, blank=True)
     type = models.CharField(max_length=1, choices=type_choices)
     question = models.TextField()
     sentence_without_a_word = models.TextField(blank=True)

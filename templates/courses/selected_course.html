@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="course-detail">
+<div class="courses-container">
     <h2>{{ course.title }}</h2>
     <p>{{ course.description }}</p>
     <p><strong>Difficulty:</strong> {{ course.get_difficulty_display }}</p>
@@ -11,7 +11,7 @@
         {% for topic in course.topics.all %}
         <li>
             <h4>{{ topic.title }}</h4>
-            <p>{{ topic.explanation }}</p>
+            <a href="{% url 'courses:selected_topic' course.id topic.id %}" class="cta-button">View Topic</a>
         </li>
         {% empty %}
         <p>No topics available.</p>
