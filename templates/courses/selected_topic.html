@@ -1,16 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}Topics - LingoFlow{% endblock %}
+{% block title %}{{ topic.title }} - LingoFlow{% endblock %}
 
 {% block content %}
-    <section class="courses-container">
-        <h3>Topics</h3>
-        {{ topic.title }}
-        {{ topic.explanation }}
+<section class="topic-container" style="margin-top: 150px; margin-bottom: 200px;">
+    <div class="topic-header">
+        <h2>{{ topic.title }}</h2>
+        <p class="explanation">{{ topic.explanation }}</p>
+    </div>
 
-    </section>
-    
-    
-
-
-
+    <div class="task-list">
+        <h3>Tasks</h3>
+        <ul>
+            {% for task in tasks %}
+                <li class="task-item">
+                    <a href="{% url 'courses:task_detail' task.id %}">{{ task.title }}</a>
+                </li>
+            {% empty %}
+                <li>No tasks available for this topic yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
 {% endblock %}

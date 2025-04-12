@@ -307,8 +307,8 @@ main:hover {
 
 /* Logout Page */
 .logout-container {
-    max-width: 650px;
-    margin: 200px auto 151px;
+    width: 450px;
+    margin: 230px auto 160px;
     padding: 30px;
     background: white;
     border-radius: 12px;
@@ -328,11 +328,11 @@ main:hover {
         margin-bottom: 25px;
     }
 
-    form {
+    .form-cnt {
         display: flex;
-        flex-direction: column;
+        /*flex-direction: column;*/
         justify-content: center;
-        gap: 15px;
+        gap: 10px;
         align-items: center;
     }
 
@@ -341,7 +341,7 @@ main:hover {
         background: #ff5252;
         color: white;
         padding: 12px 0;
-        width: 630px;
+        width: 180px;
         border: none;
         border-radius: 6px;
         font-weight: bold;
@@ -390,14 +390,166 @@ main:hover {
 .topic-list {
     list-style: none;
     padding: 0;
+
+    .topic-list li {
+        background: #eef;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    .cta-button {
+        display: inline-block;
+        background: #6E8EF3;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        text-decoration: none;
+    }
+
+    .cta-button:hover {
+        background: #A777F1;
+    }
+
 }
 
-.topic-list li {
-    background: #eef;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+
+.topic-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fdfdfd;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
 }
+
+.topic-header h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.explanation {
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.task-list h3 {
+    font-size: 1.5rem;
+    color: #444;
+    margin-bottom: 1rem;
+}
+
+.task-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.task-item {
+    padding: 0.75rem 1rem;
+    background-color: #f0f4ff;
+    border: 1px solid #c9d8ff;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    transition: background-color 0.2s;
+}
+
+.task-item a {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.task-item:hover {
+    background-color: #dbe8ff;
+}
+
+.variants-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.variant-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+}
+
+.check-btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #5c67f2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.check-btn:hover {
+    background-color: #4b53c3;
+}
+
+.result-text {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.ordering-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.ordering-item {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    width: 100px;
+    text-align: center;
+}
+
+.check-btn, .clear-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.clear-btn {
+    background-color: #FF6347;
+}
+
+.result-text {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.user-order-container {
+    display: flex;
+    flex-wrap: wrap; /* если вдруг слов много — можно перенести на новую строку */
+    gap: 8px;         /* расстояние между словами */
+    margin-top: 10px;
+}
+
+
 
 /* Footer */
 footer {

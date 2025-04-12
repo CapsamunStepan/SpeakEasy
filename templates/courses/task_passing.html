@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}{{ task.title }} - LingoFlow{% endblock %}
+
+{% block content %}
+        <section class="topic-container" style="margin-top: 200px; margin-bottom: 150px;">
+            <div class="topic-header">
+                <h2>{{ task.title }}</h2>
+                <p class="explanation">{{ task.question }}</p>
+            </div>
+
+            <div class="task-list">
+                <!-- Сюда отрендерится JS-задание -->
+            </div>
+        </section>
+
+    <script>
+        const task = {{ task_json|safe }};
+        window.task = task
+    </script>
+
+{% endblock %}

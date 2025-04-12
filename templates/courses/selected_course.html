@@ -11,7 +11,7 @@
         {% for topic in course.topics.all %}
         <li>
             <h4>{{ topic.title }}</h4>
-            <a href="{% url 'courses:selected_topic' course.id topic.id %}" class="cta-button">View Topic</a>
+            <a href="{% url 'courses:selected_topic' topic.id %}" class="cta-button">View Topic</a>
         </li>
         {% empty %}
         <p>No topics available.</p>

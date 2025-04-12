@@ -58,8 +58,8 @@ class Task(models.Model):
         ordering = ["order"]
 
     def save(self, *args, **kwargs):
-        if len(self.variants) != 4:  # Проверяем, что 4 элемента
-            raise ValueError("Variants must have exactly 4 elements")
+        if len(self.variants) > 4:  # Проверяем, что 4 элемента
+            raise ValueError("Variants must have no more 4 elements")
         super().save(*args, **kwargs)
 
     def __str__(self):
