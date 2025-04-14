@@ -79,8 +79,12 @@ function renderMissedWordTask(task) {
         if (selected.value.trim().toLowerCase() === task.missed_word.trim().toLowerCase()) {
             result.textContent = "Правильно ✅";
             result.style.color = "green";
+            saveProgress(task.id).then(r => {
+
+            });
+            container.appendChild(createNextButton());
         } else {
-            result.textContent = `Неправильно ❌. Правильный ответ: ${task.missed_word}`;
+            result.textContent = `Неправильно ❌.`;
             result.style.color = "red";
         }
     });
@@ -148,13 +152,16 @@ function renderOrderingTask(task) {
         if (JSON.stringify(userOrder) === JSON.stringify(originalOrder)) {
             resultText.textContent = "Правильно ✅";
             resultText.style.color = "green";
+            saveProgress(task.id).then(r => {
+
+            });
+            container.appendChild(createNextButton());
         } else {
-            resultText.textContent = `Неправильно ❌. Правильный порядок: ${originalOrder.join(", ")}`;
+            resultText.textContent = `Неправильно ❌.`;
             resultText.style.color = "red";
         }
     });
 
-    // Функция для отображения текущего порядка пользователя
     function renderUserOrder() {
         userOrderContainer.innerHTML = "";  // Очищаем контейнер
 
@@ -166,13 +173,171 @@ function renderOrderingTask(task) {
     }
 }
 
-
-// Функция для перемешивания массива (не используется, т.к. мы только меняем порядок)
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]]; // Переставить элементы
+        [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
 }
 
+function renderPronunciationTask(task) {
+    console.log(task);
+    const container = document.getElementById("task-container");
+    container.innerHTML = ""; // очистка
+
+    const wordElem = document.createElement("h3");
+    wordElem.textContent = task.word || "Произнесите слово";
+
+    const audio = new Audio(task.audio_url); // правильное произношение
+
+    const playBtn = document.createElement("button");
+    playBtn.textContent = "🔊 Слушать";
+    playBtn.onclick = () => audio.play();
+
+    const recordBtn = document.createElement("button");
+    recordBtn.textContent = "🎤 Записать";
+
+    const status = document.createElement("p");
+    status.textContent = "Нажмите 'Записать', чтобы начать.";
+
+    let mediaRecorder;
+    let chunks = [];
+    let isRecording = false;
+
+    recordBtn.onclick = async () => {
+        if (isRecording) {
+            mediaRecorder.stop();
+            isRecording = false;
+            status.textContent = "Завершается запись...";
+            recordBtn.textContent = "🎤 Записать";
+            return;
+        }
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            alert("Ваш браузер не поддерживает запись звука.");
+            return;
+        }
+
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            chunks = [];
+
+            mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'audio/webm' });
+                const recordedAudio = new Audio(URL.createObjectURL(blob));
+                recordedAudio.controls = true;
+                container.appendChild(recordedAudio);
+
+                status.textContent = "Запись завершена.";
+                console.log("Запись завершена, длина чанков:", chunks.length);
+            };
+
+            mediaRecorder.start();
+            isRecording = true;
+            status.textContent = "Идёт запись... нажмите снова для остановки.";
+            recordBtn.textContent = "⏹️ Остановить";
+            console.log("Началась запись");
+        } catch (err) {
+            console.error("Ошибка при доступе к микрофону:", err);
+            alert("Ошибка при записи звука. См. консоль.");
+        }
+    };
+
+    container.appendChild(wordElem);
+    container.appendChild(playBtn);
+    container.appendChild(recordBtn);
+    container.appendChild(status);
+}
+
+function renderAuditionTask(task) {
+    console.log(task);
+    const container = document.getElementById("task-container");
+    container.innerHTML = ""; // очистка
+
+    const instruction = document.createElement("h3");
+    instruction.textContent = "Прослушайте аудио и напишите, что вы услышали:";
+
+    const audio = new Audio(task.audio_url);
+
+    const playBtn = document.createElement("button");
+    playBtn.textContent = "🔊 Слушать";
+    playBtn.onclick = () => audio.play();
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Введите услышанное слово/фразу";
+
+    const checkBtn = document.createElement("button");
+    checkBtn.textContent = "Проверить";
+
+    const result = document.createElement("p");
+
+    checkBtn.onclick = () => {
+        const userAnswer = input.value.trim().toLowerCase();
+        const correctAnswer = task.word.trim().toLowerCase();
+        if (userAnswer === correctAnswer) {
+            result.textContent = "✅ Правильно!";
+            result.style.color = "green";
+        } else {
+            result.textContent = `❌ Неправильно. Правильный ответ: ${task.word}`;
+            result.style.color = "red";
+        }
+    };
+
+    container.appendChild(instruction);
+    container.appendChild(playBtn);
+    container.appendChild(input);
+    container.appendChild(checkBtn);
+    container.appendChild(result);
+}
+
+
+function createNextButton() {
+    const nextBtn = document.createElement("button");
+    nextBtn.textContent = "➡️ Далее";
+    nextBtn.classList.add("next-btn");
+    nextBtn.onclick = () => {
+        if (window.nextTaskUrl) {
+            window.location.href = window.nextTaskUrl;
+        } else if (window.nextTopicUrl) {
+            window.location.href = window.nextTopicUrl;
+        } else {
+            window.location.href = window.courses;
+        }
+    };
+    return nextBtn;
+}
+
+
+async function saveProgress(taskId, score = 100) {
+    try {
+        const response = await fetch("/courses/save_task_progress/", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCSRFToken(),
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+                task_id: taskId,
+                score: score,
+            }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            console.error("Ошибка сохранения прогресса:", data);
+        } else {
+            console.log("Прогресс сохранен:", data);
+        }
+    } catch (err) {
+        console.error("Ошибка при сохранении прогресса:", err);
+    }
+}
+
+function getCSRFToken() {
+    const cookie = document.cookie.split(";").find(c => c.trim().startsWith("csrftoken="));
+    return cookie ? cookie.split("=")[1] : "";
+}

@@ -1,5 +1,8 @@
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
+from account.models import ProgressTask
 from .models import Course, Topic, Task
 import json
 from django.forms.models import model_to_dict
@@ -35,6 +38,18 @@ def selected_topic(request, topic_id):
 @login_required
 def task_detail(request, task_id):
     task = get_object_or_404(Task, id=task_id)
+    topic = task.topic
+    topic_tasks = Task.objects.filter(topic=topic).order_by('order')
+    task_orders = list(topic_tasks)
+    current_index = task_orders.index(task)
+
+    # следующее задание в этой теме, если задания закончились, тогда следующая тема
+    next_task = None
+    next_topic = None
+    if current_index + 1 < len(task_orders):
+        next_task = task_orders[current_index + 1]
+    else:
+        next_topic = Topic.objects.filter(course=topic.course, order__gt=topic.order).order_by('order').first()
 
     task_data = {
         "id": task.id,
@@ -51,7 +66,30 @@ def task_detail(request, task_id):
     }
 
     return render(request, 'courses/task_passing.html', {
-        "task_json": json.dumps(task_data, ensure_ascii=False)
+        "task_json": json.dumps(task_data, ensure_ascii=False),
+        "next_task_id": next_task.id if next_task else None,
+        "next_topic_id": next_topic.id if next_topic else None,
     })
 
 
+@require_POST
+@login_required
+def save_task_progress(request):
+    task_id = request.POST.get("task_id")
+    score = request.POST.get("score", 100.0)
+
+    if not task_id:
+        return JsonResponse({"error": "task_id is required"}, status=400)
+
+    try:
+        task = Task.objects.get(id=task_id)
+    except Task.DoesNotExist:
+        return JsonResponse({"error": "Task not found"}, status=404)
+
+    progress, _ = ProgressTask.objects.get_or_create(user=request.user, task=task)
+    progress.attempts += 1
+    progress.score = float(score)
+    progress.completed = True
+    progress.save()
+
+    return JsonResponse({"message": "Progress saved"})

@@ -549,6 +549,75 @@ main:hover {
     margin-top: 10px;
 }
 
+#task-container {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+}
+
+#task-container h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #111827;
+}
+
+#task-container button {
+    margin: 10px;
+    padding: 12px 20px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#task-container button:hover {
+    background-color: #2563eb;
+}
+
+#task-container p {
+    font-size: 14px;
+    color: #374151;
+    margin-top: 15px;
+}
+
+#task-container audio {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.next-btn {
+    background-color: #007bff; /* синий цвет */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.next-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.03);
+}
+
+.next-btn:active {
+    transform: scale(0.97);
+    background-color: #004080;
+}
+
+
 
 
 /* Footer */
