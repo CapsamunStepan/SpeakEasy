@@ -40,6 +40,8 @@ class ProgressTask(models.Model):
 
     class Meta:
         unique_together = ["user", "task"]  # Каждое задание для пользователя — одна запись
+        verbose_name = "Task Progress"
+        verbose_name_plural = "Task Progress"
 
     def __str__(self):
         return f"{self.user} - {self.task} - {self.score}%"

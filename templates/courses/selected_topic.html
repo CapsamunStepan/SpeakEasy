@@ -5,7 +5,7 @@
 <section class="topic-container" style="margin-top: 150px; margin-bottom: 200px;">
     <div class="topic-header">
         <h2>{{ topic.title }}</h2>
-        <p class="explanation">{{ topic.explanation }}</p>
+        <p class="explanation">{{ topic.explanation|safe }}</p>
     </div>
 
     <div class="task-list">

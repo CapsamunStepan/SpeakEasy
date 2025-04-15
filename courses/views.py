@@ -5,7 +5,6 @@ from django.views.decorators.http import require_POST
 from account.models import ProgressTask
 from .models import Course, Topic, Task
 import json
-from django.forms.models import model_to_dict
 
 
 # Create your views here.
